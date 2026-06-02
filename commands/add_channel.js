@@ -1,7 +1,7 @@
 /*CMD
   command: add_channel
   help: 
-  need_reply: true
+  need_reply: false
   auto_retry_time: 
   folder: 
 
@@ -17,8 +17,12 @@
 CMD*/
 
 if (user.telegramid != Bot.getProperty("admin_id")) { return; }
-if (!params) { Bot.sendMessage("➕ *Sᴇɴᴅ ᴛʜᴇ ᴄʜᴀɴɴᴇʟ ᴜsᴇʀɴᴀᴍᴇ ᴛᴏ ᴀᴅᴅ:*\n_Exᴀᴍᴘʟᴇ: @mychannel_", {parse_mode: "Markdown"}); return; }
-var val = message.trim();
+if (!params) {
+    User.setProperty("pending_action", "add_channel", "string");
+    Bot.sendMessage("➕ *Sᴇɴᴅ ᴛʜᴇ ᴄʜᴀɴɴᴇʟ ᴜsᴇʀɴᴀᴍᴇ ᴛᴏ ᴀᴅᴅ:*\n_Exᴀᴍᴘʟᴇ: @mychannel_\n\n_Sᴇɴᴅ /cancel ᴛᴏ ᴀʙᴏʀᴛ_", {parse_mode: "Markdown"});
+    return;
+}
+var val = params.trim();
 if (!val.startsWith("@")) val = "@" + val;
 var channels = Bot.getProperty("force_channels", []);
 if (channels.indexOf(val) >= 0) { Bot.sendMessage("⚠️ Cʜᴀɴɴᴇʟ ᴀʟʀᴇᴀᴅʏ ɪɴ ʟɪsᴛ: " + val); return; }

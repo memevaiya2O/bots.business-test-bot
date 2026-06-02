@@ -1,7 +1,7 @@
 /*CMD
   command: set_agentid
   help: 
-  need_reply: true
+  need_reply: false
   auto_retry_time: 
   folder: 
 
@@ -17,8 +17,12 @@
 CMD*/
 
 if (user.telegramid != Bot.getProperty("admin_id")) { return; }
-if (!params) { Bot.sendMessage("🆔 *Sᴇɴᴅ ᴛʜᴇ ɴᴇᴡ Aɢᴇɴᴛ ID:*\n\nCᴜʀʀᴇɴᴛ: `" + Bot.getProperty("agent_id", "N/A") + "`", {parse_mode: "Markdown"}); return; }
-var val = parseInt(message);
+if (!params) {
+    User.setProperty("pending_action", "set_agentid", "string");
+    Bot.sendMessage("🆔 *Sᴇɴᴅ ᴛʜᴇ ɴᴇᴡ Aɢᴇɴᴛ ID:*\n\nCᴜʀʀᴇɴᴛ: `" + Bot.getProperty("agent_id", "N/A") + "`\n\n_Sᴇɴᴅ /cancel ᴛᴏ ᴀʙᴏʀᴛ_", {parse_mode: "Markdown"});
+    return;
+}
+var val = parseInt(params.trim());
 if (isNaN(val)) { Bot.sendMessage("❌ Pʟᴇᴀsᴇ sᴇɴᴅ ᴀ ᴠᴀʟɪᴅ ɴᴜᴍᴇʀɪᴄ ID."); return; }
 Bot.setProperty("agent_id", val, "integer");
 var agents = Bot.getProperty("agents", []);

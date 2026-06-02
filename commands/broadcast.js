@@ -25,7 +25,8 @@ var star  = "✦━━━━━━━━━━━━━━━✦";
 
 var text = star + "\n  📢 *Bʀᴏᴀᴅᴄᴀsᴛ Mᴇssᴀɢᴇ*\n" + star + "\n\n" + line + "\n";
 text += "👥 Wɪʟʟ sᴇɴᴅ ᴛᴏ: *" + total + " ᴜsᴇʀs*\n" + line + "\n\n";
-text += "✏️ *Tʏᴘᴇ ʏᴏᴜʀ ʙʀᴏᴀᴅᴄᴀsᴛ ᴍᴇssᴀɢᴇ ɴᴏᴡ.*\n\nYᴏᴜ ᴄᴀɴ ᴜsᴇ *ʙᴏʟᴅ*, _ɪᴛᴀʟɪᴄ_, `ᴄᴏᴅᴇ`.\n\nSᴇɴᴅ /cancel ᴛᴏ ᴀʙᴏʀᴛ.";
+text += "✏️ *Tʏᴘᴇ ʏᴏᴜʀ ᴍᴇssᴀɢᴇ ʙᴇʟᴏᴡ.*\n\nSᴜᴘᴘᴏʀᴛs *ʙᴏʟᴅ*, _ɪᴛᴀʟɪᴄ_, `ᴄᴏᴅᴇ`.\nSᴇɴᴅ /cancel ᴛᴏ ᴀʙᴏʀᴛ.";
 
-User.setProperty("awaiting_broadcast", true, "boolean");
+// FIX: Use pending_action so _.js routes the next message here
+User.setProperty("pending_action", "broadcast_send", "string");
 Bot.sendMessage(text, {parse_mode: "Markdown"});

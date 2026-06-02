@@ -1,7 +1,7 @@
 /*CMD
   command: set_target
   help: 
-  need_reply: true
+  need_reply: false
   auto_retry_time: 
   folder: 
 
@@ -18,10 +18,11 @@ CMD*/
 
 if (user.telegramid != Bot.getProperty("admin_id")) { return; }
 if (!params) {
-    Bot.sendMessage("🎯 *Sᴇɴᴅ ᴛʜᴇ ɴᴇᴡ ʀᴇғᴇʀʀᴀʟ ᴛᴀʀɢᴇᴛ ɴᴜᴍʙᴇʀ:*\n\nCᴜʀʀᴇɴᴛ: *" + Bot.getProperty("ref_target", 5) + "*", {parse_mode: "Markdown"});
+    User.setProperty("pending_action", "set_target", "string");
+    Bot.sendMessage("🎯 *Sᴇɴᴅ ᴛʜᴇ ɴᴇᴡ ʀᴇғᴇʀʀᴀʟ ᴛᴀʀɢᴇᴛ ɴᴜᴍʙᴇʀ:*\n\nCᴜʀʀᴇɴᴛ: *" + Bot.getProperty("ref_target", 5) + "*\n\n_Sᴇɴᴅ /cancel ᴛᴏ ᴀʙᴏʀᴛ_", {parse_mode: "Markdown"});
     return;
 }
-var val = parseInt(message);
+var val = parseInt(params.trim());
 if (isNaN(val) || val < 1) { Bot.sendMessage("❌ Pʟᴇᴀsᴇ sᴇɴᴅ ᴀ ᴠᴀʟɪᴅ ɴᴜᴍʙᴇʀ (ᴍɪɴ 1)."); return; }
 Bot.setProperty("ref_target", val, "integer");
 Bot.setProperty("reward_text", val + " Rᴇғᴇʀʀᴀʟs = 1 Pʀᴇᴍɪᴜᴍ Fɪʟᴇ", "string");

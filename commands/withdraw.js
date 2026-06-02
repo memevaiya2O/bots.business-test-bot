@@ -66,6 +66,10 @@ pending.push({
 });
 Bot.setProperty("pending_keys", pending, "json");
 
+// FIX: Store legacy key_owner_ and key_file_ for agent_confirm/cancel compatibility
+Bot.setProperty("key_owner_" + req_id, uid,  "integer");
+Bot.setProperty("key_file_"  + req_id, file, "string");
+
 var tot_w = Bot.getProperty("total_withdraw", 0) + 1;
 Bot.setProperty("total_withdraw", tot_w, "integer");
 
@@ -91,4 +95,21 @@ var admin_buttons = [
     [{title: "📥 Vɪᴇᴡ Aʟʟ Pᴇɴᴅɪɴɢ", command: "view_pending"}]
 ];
 
-Bot.sendInlineKeyboardToChatWithId(admin_id, admin_buttons, atext, {parse_mode: "Markdown"});
+// FIX: Bot.sendInlineKeyboardToChatWithId does not exist in BB
+// Use Api.sendMessage with Telegram-native inline_keyboard format
+Api.sendMessage({
+    chat_id: admin_id,
+    text: atext,
+    parse_mode: "Markdown",
+    reply_markup: JSON.stringify({
+        inline_keyboard: [
+            [
+                {text: "✅ Aᴘᴘʀᴏᴠᴇ", callback_data: "approve_req " + uid + " " + req_id},
+                {text: "❌ Rᴇᴊᴇᴄᴛ",  callback_data: "reject_req "  + uid + " " + req_id}
+            ],
+            [
+                {text: "📥 Vɪᴇᴡ Pᴇɴᴅɪɴɢ", callback_data: "view_pending"}
+            ]
+        ]
+    })
+});

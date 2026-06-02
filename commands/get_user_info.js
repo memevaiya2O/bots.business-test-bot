@@ -60,5 +60,5 @@ var buttons = [
     [{title: "🔙 Aᴅᴍɪɴ Pᴀɴᴇʟ", command: "admin_panel"}]
 ];
 
-User.setProperty("awaiting_user_lookup", false, "boolean");
+User.setProperty("pending_action", "", "string");
 Bot.sendInlineKeyboard(buttons, text, {parse_mode: "Markdown"});

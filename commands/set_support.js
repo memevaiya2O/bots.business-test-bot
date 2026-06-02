@@ -1,7 +1,7 @@
 /*CMD
   command: set_support
   help: 
-  need_reply: true
+  need_reply: false
   auto_retry_time: 
   folder: 
 
@@ -18,10 +18,11 @@ CMD*/
 
 if (user.telegramid != Bot.getProperty("admin_id")) { return; }
 if (!params) {
-    Bot.sendMessage("💬 *Sᴇɴᴅ ᴛʜᴇ sᴜᴘᴘᴏʀᴛ ᴜsᴇʀɴᴀᴍᴇ:*\n\nCᴜʀʀᴇɴᴛ: *" + Bot.getProperty("support_username", "N/A") + "*", {parse_mode: "Markdown"});
+    User.setProperty("pending_action", "set_support", "string");
+    Bot.sendMessage("💬 *Sᴇɴᴅ ᴛʜᴇ sᴜᴘᴘᴏʀᴛ ᴜsᴇʀɴᴀᴍᴇ:*\n\nCᴜʀʀᴇɴᴛ: *" + Bot.getProperty("support_username", "N/A") + "*\n\n_Sᴇɴᴅ /cancel ᴛᴏ ᴀʙᴏʀᴛ_", {parse_mode: "Markdown"});
     return;
 }
-var val = message.trim();
+var val = params.trim();
 if (!val.startsWith("@")) val = "@" + val;
 Bot.setProperty("support_username", val, "string");
 var buttons = [[{title: "🔙 Sᴇᴛᴛɪɴɢs", command: "settings"}]];

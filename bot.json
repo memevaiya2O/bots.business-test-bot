@@ -1,6 +1,22 @@
 {
-  "bb_sync_version":"1.0",
-  "name":"nxt_free_script_bot",
-  "csv_url":null,
-  "git_remote":"git@github.com:memevaiya2O/bots.business-test-bot.git"
+  "name": "Premium Referral Bot",
+  "version": "2.0.0",
+  "description": "Full-featured referral bot with income section, daily check-in, admin panel",
+  "platform": "bots.business",
+  "language": "js",
+  "author": "memevaiya2O",
+  "commands_folder": "commands",
+  "libs_folder": "libs",
+  "entry": "commands/_start.js",
+  "admin_id": 8373846582,
+  "features": [
+    "referral_system",
+    "daily_checkin",
+    "income_tracking",
+    "admin_panel",
+    "force_join",
+    "broadcast",
+    "leaderboard",
+    "agent_delivery"
+  ]
 }

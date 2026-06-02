@@ -1,7 +1,7 @@
 /*CMD
   command: set_wdchannel
   help: 
-  need_reply: true
+  need_reply: false
   auto_retry_time: 
   folder: 
 
@@ -18,10 +18,11 @@ CMD*/
 
 if (user.telegramid != Bot.getProperty("admin_id")) { return; }
 if (!params) {
-    Bot.sendMessage("📦 *Sᴇɴᴅ ᴛʜᴇ ᴡɪᴛʜᴅʀᴀᴡ ᴄʜᴀɴɴᴇʟ ᴜsᴇʀɴᴀᴍᴇ:*\n\nCᴜʀʀᴇɴᴛ: *" + Bot.getProperty("withdraw_channel", "N/A") + "*\n_Exᴀᴍᴘʟᴇ: @mychannel_", {parse_mode: "Markdown"});
+    User.setProperty("pending_action", "set_wdchannel", "string");
+    Bot.sendMessage("📦 *Sᴇɴᴅ ᴛʜᴇ ᴡɪᴛʜᴅʀᴀᴡ ᴄʜᴀɴɴᴇʟ ᴜsᴇʀɴᴀᴍᴇ:*\n\nCᴜʀʀᴇɴᴛ: *" + Bot.getProperty("withdraw_channel", "N/A") + "*\n_Exᴀᴍᴘʟᴇ: @mychannel_\n\n_Sᴇɴᴅ /cancel ᴛᴏ ᴀʙᴏʀᴛ_", {parse_mode: "Markdown"});
     return;
 }
-var val = message.trim();
+var val = params.trim();
 if (!val.startsWith("@")) val = "@" + val;
 Bot.setProperty("withdraw_channel", val, "string");
 var buttons = [[{title: "🔙 Sᴇᴛᴛɪɴɢs", command: "settings"}]];

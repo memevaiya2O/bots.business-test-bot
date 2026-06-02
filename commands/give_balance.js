@@ -21,24 +21,25 @@ if (user.telegramid != Bot.getProperty("admin_id")) { return; }
 var line = "━━━━━━━━━━━━━━━━";
 var star = "✦━━━━━━━━━━━━━━━✦";
 
-// params format: "user_id amount" or empty
+// FIX: Use params (set by _.js pending_action router) or show prompt
 if (!params) {
-    User.setProperty("awaiting_give_bal", true, "boolean");
-    Bot.sendMessage(star + "\n  💰 *Gɪᴠᴇ Bᴀʟᴀɴᴄᴇ*\n" + star + "\n\n" + line + "\nSᴇɴᴅ: `USER_ID AMOUNT`\nExᴀᴍᴘʟᴇ: `123456789 10`\n" + line, {parse_mode: "Markdown"});
+    User.setProperty("pending_action", "give_balance", "string");
+    Bot.sendMessage(star + "\n  💰 *Gɪᴠᴇ Bᴀʟᴀɴᴄᴇ*\n" + star + "\n\n" + line + "\nFᴏʀᴍᴀᴛ: `USER_ID AMOUNT`\nExᴀᴍᴘʟᴇ: `123456789 10`\nNᴇɢᴀᴛɪᴠᴇ ᴛᴏ ᴅᴇᴅᴜᴄᴛ: `123456789 -5`\n\n_Sᴇɴᴅ /cancel ᴛᴏ ᴀʙᴏʀᴛ_\n" + line, {parse_mode: "Markdown"});
     return;
 }
 
-var parts     = params.split(" ");
+var parts     = params.trim().split(" ");
 var target_id = parts[0];
 var amount    = parseInt(parts[1]);
 
 if (!target_id || isNaN(amount)) {
-    Bot.sendMessage("❌ Iɴᴠᴀʟɪᴅ ғᴏʀᴍᴀᴛ. Usᴇ: `USER_ID AMOUNT`", {parse_mode: "Markdown"});
+    Bot.sendMessage("❌ *Iɴᴠᴀʟɪᴅ ғᴏʀᴍᴀᴛ.*\nUse: `USER_ID AMOUNT`", {parse_mode: "Markdown"});
     return;
 }
 
-var cur_bal  = Bot.getProperty("balance_" + target_id, 0);
-var new_bal  = cur_bal + amount;
+var cur_bal = Bot.getProperty("balance_" + target_id, 0);
+var new_bal = cur_bal + amount;
+if (new_bal < 0) new_bal = 0;
 Bot.setProperty("balance_" + target_id, new_bal, "integer");
 
 // Notify user
@@ -49,12 +50,13 @@ var bar = "";
 for (var bi = 0; bi < bar_f; bi++) bar += "▰";
 for (var bj = bar_f; bj < 10; bj++) bar += "▱";
 
-var u_msg = "🎁 *Bᴏɴᴜs Pᴏɪɴᴛs Rᴇᴄᴇɪᴠᴇᴅ!*\n\n" + line + "\n";
-u_msg += "✅ Rᴇᴄᴇɪᴠᴇᴅ: *+" + amount + " Pᴏɪɴᴛs*\n";
+var sign   = amount >= 0 ? "+" : "";
+var emoji  = amount >= 0 ? "🎁" : "📉";
+var u_msg  = emoji + " *Pᴏɪɴᴛs " + (amount >= 0 ? "Aᴅᴅᴇᴅ" : "Dᴇᴅᴜᴄᴛᴇᴅ") + "!*\n\n━━━━━━━━━━━━━━━━\n";
+u_msg += (amount >= 0 ? "✅" : "📉") + " Cʜᴀɴɢᴇ: *" + sign + amount + " Pᴏɪɴᴛ" + (Math.abs(amount) > 1 ? "s" : "") + "*\n";
 u_msg += "💰 Bᴀʟᴀɴᴄᴇ: *" + new_bal + " / " + target + "*\n";
-u_msg += "📊 Pʀᴏɢʀᴇss: " + bar + "\n" + line + "\n\n";
-u_msg += "🎉 Kᴇᴇᴘ ɪᴛ ᴜᴘ!";
+u_msg += "📊 Pʀᴏɢʀᴇss: " + bar + "\n━━━━━━━━━━━━━━━━";
 Bot.sendMessageToChatWithId(target_id, u_msg, {parse_mode: "Markdown"});
 
 var buttons = [[{title: "🔙 Aᴅᴍɪɴ Pᴀɴᴇʟ", command: "admin_panel"}]];
-Bot.sendInlineKeyboard(buttons, "✅ *Dᴏɴᴇ!*\n\n🆔 Usᴇʀ: `" + target_id + "`\n✅ Gᴀᴠᴇ: *+" + amount + " ᴘᴛs*\n💰 Nᴇᴡ Bᴀʟ: *" + new_bal + "*", {parse_mode: "Markdown"});
+Bot.sendInlineKeyboard(buttons, "✅ *Dᴏɴᴇ!*\n\n🆔 `" + target_id + "`\n" + emoji + " *" + sign + amount + " ᴘᴛs*\n💰 Nᴇᴡ ʙᴀʟ: *" + new_bal + "*", {parse_mode: "Markdown"});
