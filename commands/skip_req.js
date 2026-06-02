@@ -20,13 +20,16 @@ var admin_id = Bot.getProperty("admin_id");
 if (user.telegramid != admin_id) { return; }
 
 var pending = Bot.getProperty("pending_keys", []);
-if (pending.length > 0) {
-    var skipped = pending.shift(); // Move first one to end
+if (pending.length > 1) {
+    var skipped = pending.shift();
     pending.push(skipped);
     Bot.setProperty("pending_keys", pending, "json");
-    Bot.sendMessage("⏭️ Skipped current request.");
-    Bot.runCommand("view_pending");
+    Bot.sendMessage("⏭️ *Sᴋɪᴘᴘᴇᴅ.* Mᴏᴠᴇᴅ ᴛᴏ ᴇɴᴅ ᴏғ ǫᴜᴇᴜᴇ.\n📦 Rᴇᴍᴀɪɴɪɴɢ: *" + pending.length + "*", {parse_mode: "Markdown"});
+} else if (pending.length == 1) {
+    Bot.sendMessage("⚠️ Oɴʟʏ 1 ʀᴇǫᴜᴇsᴛ — ᴄᴀɴɴᴏᴛ sᴋɪᴘ.");
+    return;
 } else {
-    Bot.sendMessage("❌ No requests to skip.");
+    Bot.sendMessage("✅ Nᴏ ᴘᴇɴᴅɪɴɢ ʀᴇǫᴜᴇsᴛs ᴛᴏ sᴋɪᴘ.");
+    return;
 }
-
+Bot.runCommand("view_pending");

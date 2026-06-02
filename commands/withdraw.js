@@ -16,27 +16,79 @@
   group: 
 CMD*/
 
+var uid    = user.telegramid;
 var target = Bot.getProperty("ref_target", 5);
-var bal = Bot.getProperty("balance_" + user.telegramid, 0);
-var file = Bot.getProperty("file_name", "Premium File");
+var bal    = Bot.getProperty("balance_" + uid, 0);
+var file   = Bot.getProperty("file_name", "Premium File");
+
+var bar_filled = Math.floor((bal / target) * 10);
+if (bar_filled > 10) bar_filled = 10;
+var bar = "";
+for (var bi = 0; bi < bar_filled; bi++) bar += "▰";
+for (var bj = bar_filled; bj < 10; bj++) bar += "▱";
+
+var line = "━━━━━━━━━━━━━━━━";
+var star = "✦━━━━━━━━━━━━━━━✦";
 
 if (bal < target) {
-    Bot.sendMessage("⚠️ *Nᴏᴛ Eɴᴏᴜɢʜ Rᴇғᴇʀʀᴀʟs!*\n\nYᴏᴜ ɴᴇᴇᴅ *" + target + "* ʀᴇғᴇʀʀᴀʟs ᴛᴏ ɢᴇᴛ *" + file + "*.\n📊 Cᴜʀʀᴇɴᴛ: *" + bal + "*\n❌ Nᴇᴇᴅᴇᴅ: *" + (target - bal) + "*", {parse_mode: "Markdown"});
+    var need = target - bal;
+    var text = star + "\n  🎁 *Wɪᴛʜᴅʀᴀᴡ*\n" + star + "\n\n";
+    text += line + "\n";
+    text += "⚠️ *Nᴏᴛ Eɴᴏᴜɢʜ Pᴏɪɴᴛs!*\n" + line + "\n";
+    text += "💰 Yᴏᴜʀ Pᴏɪɴᴛs: *" + bal + " / " + target + "*\n";
+    text += "📊 Pʀᴏɢʀᴇss: " + bar + "\n";
+    text += "❌ Sᴛɪʟʟ Nᴇᴇᴅᴇᴅ: *" + need + " ᴍᴏʀᴇ ʀᴇғᴇʀʀᴀʟs*\n\n";
+    text += line + "\n";
+    text += "🎯 *Hᴏᴡ ᴛᴏ Eᴀʀɴ Fᴀsᴛᴇʀ?*\n" + line + "\n";
+    text += "👥 Sʜᴀʀᴇ ʏᴏᴜʀ ʀᴇғᴇʀʀᴀʟ ʟɪɴᴋ\n";
+    text += "📅 Cʟᴀɪᴍ ᴅᴀɪʟʏ ᴄʜᴇᴄᴋ-ɪɴ ʙᴏɴᴜs\n";
+
+    var buttons = [
+        [{title: "👥 Rᴇғᴇʀ & Eᴀʀɴ", command: "refer"}, {title: "💰 Iɴᴄᴏᴍᴇ", command: "income"}],
+        [{title: "🏠 Mᴀɪɴ Mᴇɴᴜ", command: "main_menu"}]
+    ];
+    Bot.sendInlineKeyboard(buttons, text, {parse_mode: "Markdown"});
     return;
 }
 
-Bot.setProperty("balance_" + user.telegramid, bal - target, "integer");
+// Enough points — process withdrawal
+var new_bal = bal - target;
+Bot.setProperty("balance_" + uid, new_bal, "integer");
 
-var pending = Bot.getProperty("pending_keys", []);
 var req_id = "REQ" + Date.now();
-pending.push({ user_id: user.telegramid, req_id: req_id, date: new Date().toLocaleString() });
+var pending = Bot.getProperty("pending_keys", []);
+pending.push({
+    user_id:   uid,
+    user_name: user.first_name,
+    req_id:    req_id,
+    date:      new Date().toLocaleString(),
+    file:      file
+});
 Bot.setProperty("pending_keys", pending, "json");
 
 var tot_w = Bot.getProperty("total_withdraw", 0) + 1;
 Bot.setProperty("total_withdraw", tot_w, "integer");
 
-Bot.sendMessage("✅ *Wɪᴛʜᴅʀᴀᴡ Sᴜᴄᴄᴇssғᴜʟ!*\n\nYᴏᴜʀ ʀᴇǫᴜᴇsᴛ ɪs sᴇɴᴛ ᴛᴏ ᴛʜᴇ ᴀᴅᴍɪɴ ᴘᴀɴᴇʟ.\nAᴅᴍɪɴ ᴡɪʟʟ ᴀᴘᴘʀᴏᴠᴇ ɪᴛ sᴏᴏɴ.\n\n🆔 Rᴇǫᴜᴇsᴛ ID: `" + req_id + "`", {parse_mode: "Markdown"});
+// Notify user
+var utext = star + "\n  🎉 *Wɪᴛʜᴅʀᴀᴡ Sᴜʙᴍɪᴛᴛᴇᴅ!*\n" + star + "\n\n" + line + "\n";
+utext += "📁 Fɪʟᴇ: *" + file + "*\n";
+utext += "🆔 Rᴇǫ ID: `" + req_id + "`\n";
+utext += "⏳ Sᴛᴀᴛᴜs: *Pᴇɴᴅɪɴɢ Aᴅᴍɪɴ Aᴘᴘʀᴏᴠᴀʟ*\n";
+utext += "🕐 Tɪᴍᴇ: *12-24 ʜᴏᴜʀs*\n" + line + "\n\n";
+utext += "✅ Yᴏᴜ ᴡɪʟʟ ʙᴇ ɴᴏᴛɪғɪᴇᴅ ᴡʜᴇɴ ᴀᴘᴘʀᴏᴠᴇᴅ.";
+Bot.sendMessage(utext, {parse_mode: "Markdown"});
 
-var admin = Bot.getProperty("admin_id");
-Bot.sendMessageToChatWithId(admin, "🔔 *Nᴇᴡ Fɪʟᴇ Rᴇǫᴜᴇsᴛ!*\n\n👤 Usᴇʀ: `" + user.telegramid + "`\n🆔 Rᴇǫᴜᴇsᴛ ID: `" + req_id + "`\n\nPʟᴇᴀsᴇ ᴄʜᴇᴄᴋ ᴛʜᴇ ᴀᴅᴍɪɴ ᴘᴀɴᴇʟ.");
+// Notify admin
+var admin_id = Bot.getProperty("admin_id");
+var atext = "🔔 *Nᴇᴡ Wɪᴛʜᴅʀᴀᴡ Rᴇǫᴜᴇsᴛ!*\n\n" + line + "\n";
+atext += "👤 Usᴇʀ: [" + user.first_name + "](tg://user?id=" + uid + ")\n";
+atext += "🆔 ID: `" + uid + "`\n";
+atext += "📁 Fɪʟᴇ: *" + file + "*\n";
+atext += "🎫 Rᴇǫ ID: `" + req_id + "`\n" + line;
 
+var admin_buttons = [
+    [{title: "✅ Aᴘᴘʀᴏᴠᴇ", command: "approve_req " + uid + " " + req_id}, {title: "❌ Rᴇᴊᴇᴄᴛ", command: "reject_req " + uid + " " + req_id}],
+    [{title: "📥 Vɪᴇᴡ Aʟʟ Pᴇɴᴅɪɴɢ", command: "view_pending"}]
+];
+
+Bot.sendInlineKeyboardToChatWithId(admin_id, admin_buttons, atext, {parse_mode: "Markdown"});

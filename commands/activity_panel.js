@@ -16,7 +16,22 @@
   group: 
 CMD*/
 
- if (user.telegramid != Bot.getProperty("admin_id")) { return; }
-  Bot.sendKeyboard("✅ Aᴄᴛɪᴠɪᴛʏ ON, ❌ Aᴄᴛɪᴠɪᴛʏ OFF\n📡 Sᴇᴛ Aᴄᴛɪᴠɪᴛʏ Cʜᴀɴɴᴇʟ, 👑 Aᴅᴍɪɴ Pᴀɴᴇʟ", "📡 *Aᴜᴛᴏ Aᴄᴛɪᴠɪᴛʏ Pᴏsᴛs*\n\nCʜᴀɴɴᴇʟ: " + Bot.getProperty("activity_channel", "Not Set") + "\nSᴛᴀᴛᴜs: *" + (Bot.getProperty("auto_activity_posts", true) ? "ON ✅" : "OFF ❌") + "*\n\nAᴜᴛᴏ ᴘᴏsᴛs:\n• Nᴇᴡ ᴜsᴇʀ ᴊᴏɪɴ\n• Nᴇᴡ ʀᴇғᴇʀʀᴀʟ\n• Fɪʟᴇ ᴄʟᴀɪᴍ / ᴡɪᴛʜᴅʀᴀᴡ");
+if (user.telegramid != Bot.getProperty("admin_id")) { return; }
 
+var line = "━━━━━━━━━━━━━━━━";
+var star = "✦━━━━━━━━━━━━━━━✦";
+var status = Bot.getProperty("auto_activity_posts", true);
 
+var text = star + "\n  📡 *Aᴜᴛᴏ Aᴄᴛɪᴠɪᴛʏ Pᴏsᴛs*\n" + star + "\n\n" + line + "\n";
+text += "📡 Cʜᴀɴɴᴇʟ: *" + Bot.getProperty("activity_channel", "Nᴏᴛ Sᴇᴛ") + "*\n";
+text += "🔄 Sᴛᴀᴛᴜs:  *" + (status ? "✅ ON" : "❌ OFF") + "*\n\n";
+text += "📋 *Aᴜᴛᴏ-ᴘᴏsᴛ ᴇᴠᴇɴᴛs:*\n" + line + "\n";
+text += "• 👤 Nᴇᴡ ᴜsᴇʀ ᴊᴏɪɴᴇᴅ\n";
+text += "• 🎉 Nᴇᴡ ʀᴇғᴇʀʀᴀʟ ᴇᴀʀɴᴇᴅ\n";
+text += "• ✅ Wɪᴛʜᴅʀᴀᴡ ᴀᴘᴘʀᴏᴠᴇᴅ\n" + line;
+
+Bot.sendKeyboard([
+    [{text: "✅ Aᴄᴛɪᴠɪᴛʏ ON"}, {text: "❌ Aᴄᴛɪᴠɪᴛʏ OFF"}],
+    [{text: "📡 Sᴇᴛ Aᴄᴛɪᴠɪᴛʏ Cʜᴀɴɴᴇʟ"}],
+    [{text: "👑 Aᴅᴍɪɴ Pᴀɴᴇʟ"}]
+], text, {parse_mode: "Markdown"});

@@ -25,4 +25,3 @@ if (!channels || channels.length == 0) {
 
 User.setProperty("join_check_index", 0, "integer");
 Bot.runCommand("check_join_step");
-

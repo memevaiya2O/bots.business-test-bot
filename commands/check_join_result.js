@@ -17,9 +17,9 @@
 CMD*/
 
 var channels = Bot.getProperty("force_channels", []);
-var index = User.getProperty("join_check_index", 0);
-var status = options.result.status;
-var ok = (status == "member" || status == "administrator" || status == "creator");
+var index    = User.getProperty("join_check_index", 0);
+var status   = options.result.status;
+var ok       = (status == "member" || status == "administrator" || status == "creator");
 
 if (ok) {
     User.setProperty("join_check_index", index + 1, "integer");
@@ -27,12 +27,24 @@ if (ok) {
     return;
 }
 
-var buttons = [];
+var line = "━━━━━━━━━━━━━━━━";
+var star = "✦━━━━━━━━━━━━━━━✦";
+
+var text = star + "\n  🔐 *Mᴇᴍʙᴇʀsʜɪᴘ Rᴇǫᴜɪʀᴇᴅ*\n" + star + "\n\n" + line + "\n";
+text += "⚠️ Yᴏᴜ ᴍᴜsᴛ ᴊᴏɪɴ ᴀʟʟ ʀᴇǫᴜɪʀᴇᴅ ᴄʜᴀɴɴᴇʟs ᴛᴏ ᴜsᴇ ᴛʜɪs ʙᴏᴛ.\n\n";
+text += "📢 *Rᴇǫᴜɪʀᴇᴅ Cʜᴀɴɴᴇʟs:*\n";
 for (var i = 0; i < channels.length; i++) {
-    var ch = channels[i];
-    buttons.push([{ title: "📢 Jᴏɪɴ " + ch, url: "https://t.me/" + ch.replace("@", "") }]);
+    text += "• " + channels[i] + "\n";
 }
-buttons.push([{ title: "✅ Cʜᴇᴄᴋ Aɢᴀɪɴ", command: "check_join" }]);
+text += line;
 
-Bot.sendInlineKeyboard(buttons, "🚫 *Aᴄᴄᴇss Rᴇsᴛʀɪᴄᴛᴇᴅ*\n\n🔐 ᴊᴏɪɴ ᴀʟʟ ʀᴇǫᴜɪʀᴇᴅ ᴄʜᴀɴɴᴇʟs.\n\n📢 *Rᴇǫᴜɪʀᴇᴅ Cʜᴀɴɴᴇʟs:*\n• " + channels.join("\n• ") + "\n\nAғᴛᴇʀ ᴊᴏɪɴɪɴɢ, ᴘʀᴇss Cʜᴇᴄᴋ Aɢᴀɪɴ.");
+var buttons = [];
+for (var j = 0; j < channels.length; j++) {
+    buttons.push([{
+        title: "📢 Jᴏɪɴ " + channels[j],
+        url: "https://t.me/" + channels[j].replace("@", "")
+    }]);
+}
+buttons.push([{title: "✅ I'ᴠᴇ Jᴏɪɴᴇᴅ — Cʜᴇᴄᴋ Aɢᴀɪɴ", command: "check_join"}]);
 
+Bot.sendInlineKeyboard(buttons, text, {parse_mode: "Markdown"});

@@ -16,18 +16,30 @@
   group: 
 CMD*/
 
-var keys = User.getProperty("keys", []);
-var file = Bot.getProperty("file_name", "Premium File");
+var keys   = User.getProperty("keys", []);
+var file   = Bot.getProperty("file_name", "Premium File");
+var bal    = Bot.getProperty("balance_" + user.telegramid, 0);
+var target = Bot.getProperty("ref_target", 5);
+var line   = "━━━━━━━━━━━━━━━━";
+var star   = "✦━━━━━━━━━━━━━━━✦";
+
+var text = star + "\n  🔑 *Mʏ Kᴇʏs & Rᴇᴡᴀʀᴅs*\n" + star + "\n\n" + line + "\n";
 
 if (keys.length == 0) {
-    Bot.sendMessage("📂 *Yᴏᴜʀ Kᴇʏs*\n\n❌ Yᴏᴜ ʜᴀᴠᴇɴ'ᴛ ᴇᴀʀɴᴇᴅ ᴀɴʏ ᴋᴇʏs ʏᴇᴛ.\nIɴᴠɪᴛᴇ ғʀɪᴇɴᴅs ᴛᴏ ɢᴇᴛ *" + file + "*.");
-    return;
+    text += "📭 *Nᴏ ᴋᴇʏs ʏᴇᴛ.*\n\n";
+    text += "💡 Iɴᴠɪᴛᴇ *" + target + " ғʀɪᴇɴᴅs* ᴀɴᴅ ᴄʟɪᴄᴋ\n";
+    text += "🎁 Wɪᴛʜᴅʀᴀᴡ ᴛᴏ ᴇᴀʀɴ: *" + file + "*\n";
+    text += "💰 Cᴜʀʀᴇɴᴛ: *" + bal + " / " + target + "* ᴘᴏɪɴᴛs\n" + line;
+} else {
+    text += "📦 *Yᴏᴜ ʜᴀᴠᴇ " + keys.length + " ᴋᴇʏ(s):*\n" + line + "\n";
+    for (var i = 0; i < keys.length; i++) {
+        text += (i + 1) + ". `" + keys[i] + "`\n";
+    }
+    text += line;
 }
 
-var text = "🔑 *Yᴏᴜʀ Pʀᴇᴍɪᴜᴍ Kᴇʏs/Lɪɴᴋs*\n\n";
-for (var i = 0; i < keys.length; i++) {
-    text += (i + 1) + ". `" + keys[i] + "`\n";
-}
-
-Bot.sendMessage(text, {parse_mode: "Markdown"});
-
+var buttons = [
+    [{title: "👥 Rᴇғᴇʀ & Eᴀʀɴ Mᴏʀᴇ", command: "refer"}],
+    [{title: "💰 Iɴᴄᴏᴍᴇ", command: "income"}, {title: "🏠 Mᴀɪɴ Mᴇɴᴜ", command: "main_menu"}]
+];
+Bot.sendInlineKeyboard(buttons, text, {parse_mode: "Markdown"});

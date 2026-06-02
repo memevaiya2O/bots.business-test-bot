@@ -17,6 +17,23 @@
 CMD*/
 
 if (user.telegramid != Bot.getProperty("admin_id")) { return; }
-  Bot.sendKeyboard("✏️ Cʜᴀɴɢᴇ Rᴇғᴇʀʀᴀʟ, 👨‍💻 Cʜᴀɴɢᴇ Aɢᴇɴᴛ Usᴇʀɴᴀᴍᴇ\n🆔 Cʜᴀɴɢᴇ Aɢᴇɴᴛ ID, 📂 Sᴇᴛ Sᴄʀɪᴘᴛ Fɪʟᴇ\n📁 Sᴇᴛ Fɪʟᴇ Nᴀᴍᴇ, 💬 Sᴇᴛ Sᴜᴘᴘᴏʀᴛ\n📦 Sᴇᴛ Wɪᴛʜᴅʀᴀᴡ Cʜᴀɴɴᴇʟ, 📡 Sᴇᴛ Aᴄᴛɪᴠɪᴛʏ Cʜᴀɴɴᴇʟ\n👑 Aᴅᴍɪɴ Pᴀɴᴇʟ", "⚙️ *Bᴏᴛ Sᴇᴛᴛɪɴɢs*\n\n🎯 Rᴇғᴇʀʀᴀʟ Rᴇǫᴜɪʀᴇᴅ: *" + Bot.getProperty("ref_target", 5) + "*\n👨‍💻 Aɢᴇɴᴛ: " + Bot.getProperty("agent_username", "@agent_username") + "\n🆔 Aɢᴇɴᴛ ID: `" + Bot.getProperty("agent_id") + "`\n📁 Fɪʟᴇ: *" + Bot.getProperty("file_name", "Premium File") + "*\n💬 Sᴜᴘᴘᴏʀᴛ: " + Bot.getProperty("support_username", "@support_username") + "\n📦 Wɪᴛʜᴅʀᴀᴡ Cʜ: " + Bot.getProperty("withdraw_channel", "Not Set") + "\n📡 Aᴄᴛɪᴠɪᴛʏ Cʜ: " + Bot.getProperty("activity_channel", "Not Set"));
 
+var line = "━━━━━━━━━━━━━━━━";
+var star = "✦━━━━━━━━━━━━━━━✦";
 
+var text = star + "\n  ⚙️ *Bᴏᴛ Sᴇᴛᴛɪɴɢs*\n" + star + "\n\n" + line + "\n";
+text += "🎯 Rᴇғ Tᴀʀɢᴇᴛ:   *" + Bot.getProperty("ref_target", 5) + "*\n";
+text += "📁 Fɪʟᴇ Nᴀᴍᴇ:    *" + Bot.getProperty("file_name", "N/A") + "*\n";
+text += "👨‍💻 Aɢᴇɴᴛ:        " + Bot.getProperty("agent_username", "N/A") + "\n";
+text += "🆔 Aɢᴇɴᴛ ID:     `" + Bot.getProperty("agent_id", "N/A") + "`\n";
+text += "💬 Sᴜᴘᴘᴏʀᴛ:      " + Bot.getProperty("support_username", "N/A") + "\n";
+text += "📦 Wɪᴛʜᴅʀᴀᴡ Cʜ: " + Bot.getProperty("withdraw_channel", "N/A") + "\n";
+text += "📡 Aᴄᴛɪᴠɪᴛʏ Cʜ:  " + Bot.getProperty("activity_channel", "N/A") + "\n" + line;
+
+Bot.sendKeyboard([
+    [{text: "✏️ Cʜᴀɴɢᴇ Rᴇғᴇʀʀᴀʟ"}, {text: "📁 Sᴇᴛ Fɪʟᴇ Nᴀᴍᴇ"}],
+    [{text: "👨‍💻 Cʜᴀɴɢᴇ Aɢᴇɴᴛ Usᴇʀɴᴀᴍᴇ"}, {text: "🆔 Cʜᴀɴɢᴇ Aɢᴇɴᴛ ID"}],
+    [{text: "💬 Sᴇᴛ Sᴜᴘᴘᴏʀᴛ"}, {text: "📦 Sᴇᴛ Wɪᴛʜᴅʀᴀᴡ Cʜᴀɴɴᴇʟ"}],
+    [{text: "📡 Sᴇᴛ Aᴄᴛɪᴠɪᴛʏ Cʜᴀɴɴᴇʟ"}, {text: "📂 Sᴇᴛ Sᴄʀɪᴘᴛ Fɪʟᴇ"}],
+    [{text: "👑 Aᴅᴍɪɴ Pᴀɴᴇʟ"}]
+], text, {parse_mode: "Markdown"});

@@ -16,9 +16,10 @@
   group: 
 CMD*/
 
-var admin_id = Bot.getProperty("admin_id");
-if (user.telegramid != admin_id) { return; }
+if (user.telegramid != Bot.getProperty("admin_id")) { return; }
 
-Bot.sendMessage("🔍 *Sᴇɴᴅ ᴛʜᴇ Usᴇʀ ID:*");
-Bot.runCommand("get_user_info");
+var line = "━━━━━━━━━━━━━━━━";
+var star = "✦━━━━━━━━━━━━━━━✦";
 
+Bot.sendMessage(star + "\n  🔍 *Usᴇʀ Lᴏᴏᴋᴜᴘ*\n" + star + "\n\n" + line + "\n📝 Sᴇɴᴅ ᴛʜᴇ *Usᴇʀ ID* ᴛᴏ ʟᴏᴏᴋ ᴜᴘ:\n" + line, {parse_mode: "Markdown"});
+User.setProperty("awaiting_user_lookup", true, "boolean");

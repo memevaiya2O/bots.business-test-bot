@@ -1,84 +1,107 @@
-# nxt_free_script_bot - chat bot
-It is repository for chat bot: [@nxt_free_script_bot](https://t.me/nxt_free_script_bot)
+# 🤖 Premium Referral Bot — BB Export
 
-## What it is?
-This repository can be imported to [Bots.Business](https://bots.business) as a worked chat bot.
+A fully-featured **bots.business** Telegram bot with referral system, income tracking, daily check-in, and a complete admin panel.
 
-[Bots.Business](https://bots.business) - it is probably the first CBPaaS - Chat Bot Platform as a Service.
+## ✨ Features
 
-A CBPaaS is a cloud-based platform that enables developers to create chatbots without needing to build backend infrastructure.
+### 👤 User Features
+- `/start` — Auto referral tracking, force-join check
+- **My Account** — Full profile with progress bar
+- **Refer & Earn** — Referral link with share button + progress stats
+- **Income** — Earnings overview + Daily Check-in bonus (+1 pt/day) with streak tracking
+- **Withdraw** — Claim reward when referral target is met
+- **My Keys** — View earned files/keys
+- **Leaderboard** — Top 10 referrers with medals & rank
+- **Rules** — Bot rules
+- **How It Works** — Step-by-step guide
+- **Support** — Contact support & agent
 
-## Create your own bot for Telegram from this Git repo
+### 👑 Admin Panel
+- 📊 **Live Statistics** — Users, pending, approved, rejected, banned
+- 📥 **Pending Requests** — Approve / Reject / Skip with inline buttons
+- 📢 **Broadcast** — Send message to all users (with sent/failed count)
+- 👤 **User Lookup** — View user info, give/remove points, ban/unban
+- 💰 **Give Balance** — Add points to any user
+- 🚫 **Ban / Unban User** — With auto notification
+- ⚙️ **Settings** — Set referral target, file name, agent, support, channels
+- 🎨 **Customize UI** — Brand name, welcome title, subtitle, reward text
+- 📢 **Force Join Manager** — Add/remove channels
+- 📡 **Activity Panel** — Auto-post to activity channel (toggle on/off)
+- 👨‍💻 **Agent Panel** — View & manage pending deliveries
 
-How to create bot?
-1. Create bot with [@BotFather](https://telegram.me/BotFather) and take Secret Token
-2. Create bot in App and add Secret Token
-3. Add Public Key from App as [Deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) with read access (and write access for bot exporting if you need it)
-4. Do import for this git repo
+## 🚀 Setup
 
-Now you can talk with yours new Telegram Bot
+1. Import this bot into **bots.business**
+2. Run the `config` command as admin to initialize all settings
+3. Set your admin ID in `config.js`
+4. Configure channels, agent, support usernames
 
-See [more](https://help.bots.business/getting-started)
+## 📁 File Structure
 
-## Commands - in commands folder
-File name - it is command name (Bot it can be rewritten in command description)
+```
+commands/
+├── config.js          — Initial setup
+├── _start.js          — /start handler
+├── _.js               — Keyboard router
+├── _admin.js          — /admin command
+├── main_menu.js       — Main menu
+├── my_account.js      — User profile
+├── income.js          — Income section
+├── daily_checkin.js   — Daily bonus
+├── refer.js           — Referral system
+├── withdraw.js        — Withdrawal
+├── my_keys.js         — User keys
+├── leaderboard.js     — Top referrers
+├── rules.js           — Bot rules
+├── how_it_works.js    — Guide
+├── support.js         — Support
+├── admin_panel.js     — Admin dashboard
+├── view_pending.js    — Pending requests
+├── approve_req.js     — Approve request
+├── reject_req.js      — Reject request
+├── skip_req.js        — Skip request
+├── stats.js           — Full statistics
+├── broadcast.js       — Broadcast setup
+├── broadcast_send.js  — Send broadcast
+├── ban_user.js        — Ban user
+├── unban_user.js      — Unban user
+├── give_balance.js    — Give points
+├── user_details.js    — User lookup
+├── get_user_info.js   — User info display
+├── settings.js        — Bot settings
+├── bot_settings.js    — Settings overview
+├── set_target.js      — Set referral target
+├── set_file.js        — Set file name
+├── set_agent.js       — Set agent username
+├── set_agentid.js     — Set agent ID
+├── set_support.js     — Set support username
+├── set_wdchannel.js   — Set withdraw channel
+├── set_actchannel.js  — Set activity channel
+├── set_scriptfile.js  — Set script file
+├── customize_ui.js    — UI customization
+├── set_brand.js       — Set brand name
+├── set_title.js       — Set welcome title
+├── set_subtitle.js    — Set subtitle
+├── set_rewardtext.js  — Set reward text
+├── force_join_panel.js — Force join manager
+├── add_channel.js     — Add force channel
+├── remove_channel.js  — Remove force channel
+├── check_join.js      — Force join check
+├── check_join_step.js — Check per channel
+├── check_join_result.js — Join result handler
+├── activity_panel.js  — Activity settings
+├── agent_panel.js     — Agent view
+├── agent_confirm.js   — Agent delivery confirm
+└── agent_cancel.js    — Agent delivery cancel
+```
 
-Command can have: `name`, `help`, `aliases` (second names), `answer`, `keyboard`, `scnarios` (for simple logic) and other options.
+## 🎨 UI Style
 
-### Command description
-It is file header:
+All messages use **Unicode Small Caps** for a premium look:
+```
+✦━━━━━━━━━━━━━━━✦
+  👤 Mʏ Pʀᴏғɪʟᴇ
+✦━━━━━━━━━━━━━━━✦
 
-    /*CMD
-      command: /test
-      help: this is help for ccommand
-      need_reply: [ true or false here ]
-      auto_retry_time: [ time in sec ]
-      answer: it is example answer for /test command
-      keyboard: button1, button2
-      aliases: /test2, /test3
-    CMD*/
-
-See [more](https://help.bots.business/commands)
-
-### Command body
-It is command code in JavaScript.
-Use Bot Java Script for logic in command.
-
-For example:
-> Bot.sendMessage(2+2);
-
-See [more](https://help.bots.business/scenarios-and-bjs)
-
-
-## Libraries - in libs folder
-You can store common code in the libs folder. File name - it is library name.
-
-For example code in myLib.js:
-
-    function hello(){ Bot.sendMessage("Hello from lib!") }
-    function goodbye(name){ Bot.sendMessage("Goodbye, " + name) }
-
-    publish({
-      sayHello: hello,
-      sayGoodbyeTo: goodbye
-    })
-
-then you can run in any bot's command:
-
-    Libs.myLib.hello()
-    Libs.myLib.sayGoodbyeTo("Alice")
-
-See [more](https://help.bots.business/git/library)
-
-## Other bots example
-See other bots examples in the [github](https://github.com/bots-business?utf8=✓&tab=repositories&q=&type=public&language=javascript) or in the [Bot Store](https://bots.business/)
-
-
-## Other help
-[Help.bots.business](https://help.bots.business)
-
-## API
-See [API](https://api.bots.business/docs#/docs/summary)
-
-
-![](https://bots.business/images/web-logo.png)
+💰 Pᴏɪɴᴛs: 3/5  ▰▰▰▰▰▰▱▱▱▱  60%
+```

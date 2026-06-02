@@ -1,7 +1,7 @@
 /*CMD
   command: broadcast_send
   help: 
-  need_reply: false
+  need_reply: true
   auto_retry_time: 
   folder: 
 
@@ -20,18 +20,34 @@ var admin_id = Bot.getProperty("admin_id");
 if (user.telegramid != admin_id) { return; }
 
 if (message == "/cancel") {
-    Bot.sendMessage("🚫 Broadcast cancelled.");
+    User.setProperty("awaiting_broadcast", false, "boolean");
+    Bot.sendMessage("🚫 *Bʀᴏᴀᴅᴄᴀsᴛ ᴄᴀɴᴄᴇʟʟᴇᴅ.*", {parse_mode: "Markdown"});
     Bot.runCommand("admin_panel");
     return;
 }
 
-var users = Bot.getProperty("all_users", []);
-Bot.sendMessage("🚀 *Bʀᴏᴀᴅᴄᴀsᴛ Sᴛᴀʀᴛᴇᴅ...*\n\nSᴇɴᴅɪɴɢ ᴛᴏ " + users.length + " ᴜsᴇʀs.");
+var users   = Bot.getProperty("all_users", []);
+var sent    = 0;
+var failed  = 0;
+var line    = "━━━━━━━━━━━━━━━━";
+
+Bot.sendMessage("📤 *Sᴇɴᴅɪɴɢ ᴛᴏ " + users.length + " ᴜsᴇʀs...*", {parse_mode: "Markdown"});
 
 for (var i = 0; i < users.length; i++) {
-    Bot.sendMessageToChatWithId(users[i], message);
+    try {
+        Bot.sendMessageToChatWithId(users[i], message);
+        sent++;
+    } catch (e) {
+        failed++;
+    }
 }
 
-Bot.sendMessage("✅ *Bʀᴏᴀᴅᴄᴀsᴛ Cᴏᴍᴘʟᴇᴛᴇᴅ!*");
-Bot.runCommand("admin_panel");
+User.setProperty("awaiting_broadcast", false, "boolean");
 
+var result = "✅ *Bʀᴏᴀᴅᴄᴀsᴛ Cᴏᴍᴘʟᴇᴛᴇ!*\n\n" + line + "\n";
+result += "📤 Sᴇɴᴛ:   *" + sent + "*\n";
+result += "❌ Fᴀɪʟᴇᴅ: *" + failed + "*\n";
+result += "👥 Tᴏᴛᴀʟ:  *" + users.length + "*\n" + line;
+
+var buttons = [[{title: "🔙 Aᴅᴍɪɴ Pᴀɴᴇʟ", command: "admin_panel"}]];
+Bot.sendInlineKeyboard(buttons, result, {parse_mode: "Markdown"});

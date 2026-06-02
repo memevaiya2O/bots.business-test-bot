@@ -16,6 +16,8 @@
   group: 
 CMD*/
 
-if (user.telegramid != Bot.getProperty("admin_id")) { Bot.sendMessage("❌ Aᴄᴄᴇss Dᴇɴɪᴇᴅ"); return; }
-  Bot.runCommand("admin_panel");
-
+if (user.telegramid != Bot.getProperty("admin_id")) {
+    Bot.sendMessage("❌ *Aᴄᴄᴇss Dᴇɴɪᴇᴅ*\n\nYᴏᴜ ᴅᴏ ɴᴏᴛ ʜᴀᴠᴇ ᴀᴅᴍɪɴ ᴘᴇʀᴍɪssɪᴏɴs.", {parse_mode: "Markdown"});
+    return;
+}
+Bot.runCommand("admin_panel");

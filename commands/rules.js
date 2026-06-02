@@ -16,13 +16,19 @@
   group: 
 CMD*/
 
-var bot_brand = Bot.getProperty("bot_brand", "Premium Bot");
-var text = "📜 *Bᴏᴛ Rᴜʟᴇs & Gᴜɪᴅᴇʟɪɴᴇs*\n\n";
-text += "1️⃣ Dᴏ ɴᴏᴛ ᴜsᴇ ғᴀᴋᴇ ʀᴇғᴇʀʀᴀʟs (Aɴᴛɪ-Sᴘᴀᴍ sʏsᴛᴇᴍ ᴀᴄᴛɪᴠᴇ).\n";
-text += "2️⃣ Dᴏ ɴᴏᴛ sᴘᴀᴍ ᴛʜᴇ sᴜᴘᴘᴏʀᴛ ʙᴏᴛ.\n";
-text += "3️⃣ Mᴜʟᴛɪᴘʟᴇ ᴀᴄᴄᴏᴜɴᴛs ᴏɴ ᴛʜᴇ sᴀᴍᴇ ᴘʜᴏɴᴇ ᴀʀᴇ ʙᴀɴɴᴇᴅ.\n";
-text += "4️⃣ Pᴀʏᴍᴇɴᴛ/Fɪʟᴇ ᴅᴇʟɪᴠᴇʀʏ ᴛᴀᴋᴇs 12-24 ʜᴏᴜʀs.\n\n";
-text += "⚖️ Pᴏᴡᴇʀᴇᴅ ʙʏ: *" + bot_brand + "*";
+var brand  = Bot.getProperty("bot_brand", "Premium Bot");
+var line   = "━━━━━━━━━━━━━━━━";
+var star   = "✦━━━━━━━━━━━━━━━✦";
 
-Bot.sendMessage(text, {parse_mode: "Markdown"});
+var text = star + "\n  📜 *Rᴜʟᴇs & Gᴜɪᴅᴇʟɪɴᴇs*\n" + star + "\n\n" + line + "\n";
+text += "1️⃣ ᴅᴏ ɴᴏᴛ ᴜsᴇ ғᴀᴋᴇ ᴏʀ sᴘᴀᴍ ʀᴇғᴇʀʀᴀʟs.\n";
+text += "2️⃣ ᴏɴᴇ ᴀᴄᴄᴏᴜɴᴛ ᴘᴇʀ ᴘᴇʀsᴏɴ — ᴅᴜᴘʟɪᴄᴀᴛᴇs ᴀʀᴇ ʙᴀɴɴᴇᴅ.\n";
+text += "3️⃣ ᴅᴏ ɴᴏᴛ sᴘᴀᴍ ᴛʜᴇ sᴜᴘᴘᴏʀᴛ ᴛᴇᴀᴍ.\n";
+text += "4️⃣ ʀᴇғᴇʀʀᴇᴅ ᴜsᴇʀs ᴍᴜsᴛ sᴛᴀʏ ɪɴ ᴛʜᴇ ᴄʜᴀɴɴᴇʟs.\n";
+text += "5️⃣ ᴅᴇʟɪᴠᴇʀʏ ᴛᴀᴋᴇs ᴜᴘ ᴛᴏ 12-24 ʜᴏᴜʀs.\n";
+text += "6️⃣ ᴀᴅᴍɪɴ ʜᴀs ᴛʜᴇ ʀɪɢʜᴛ ᴛᴏ ʙᴀɴ ᴜsᴇʀs ᴡɪᴛʜᴏᴜᴛ ɴᴏᴛɪᴄᴇ.\n";
+text += "7️⃣ ᴠɪᴏʟᴀᴛɪɴɢ ʀᴜʟᴇs ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ ᴀ ᴘᴇʀᴍᴀɴᴇɴᴛ ʙᴀɴ.\n" + line + "\n\n";
+text += "⚖️ Pᴏᴡᴇʀᴇᴅ ʙʏ: *" + brand + "*";
 
+var buttons = [[{title: "🏠 Mᴀɪɴ Mᴇɴᴜ", command: "main_menu"}]];
+Bot.sendInlineKeyboard(buttons, text, {parse_mode: "Markdown"});
